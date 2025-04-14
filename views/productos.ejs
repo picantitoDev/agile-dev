@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lista de Productos</title>
+  </head>
+  <body>
+    <button>Crear Producto</button>
+    <h1>Lista de Productos</h1>
+    <ul>
+      <% productos.forEach(function(producto) { %>
+      <li><%= producto %></li>
+      <% }) %>
+    </ul>
+  </body>
+</html>

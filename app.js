@@ -1,7 +1,7 @@
 const express = require("express")
 const app = express()
 const path = require("path")
-const productRoutes = require("./routes/productRoutes")
+const rutaProductos = require("./routes/rutaProductos")
 
 app.use(express.static(path.join(__dirname, "public")))
 app.set("view engine", "ejs")
@@ -11,7 +11,7 @@ app.get("/", (req, res) => {
   res.render("index", { title: "Gabriel Roscaza" })
 })
 
-app.use("/products", productRoutes)
+app.use("/productos", rutaProductos)
 
 app.listen(8080, () => {
   console.log("Running on localhost...")
