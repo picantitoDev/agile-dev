@@ -3,112 +3,131 @@
   <head>
     <meta charset="UTF-8" />
     <title>Lista de Productos</title>
-    <link rel="stylesheet" href="/" />
+    <link rel="stylesheet" href="/listarProductos.css" />
   </head>
   <body>
-    <a href="/">Atrás</a>
-    <input type="text" id="searchBar" placeholder="Buscar producto..." />
-    <select id="categoryFilter">
-      <option value="all">Todas las categorias</option>
-      <option value="Abarrotes">Abarrotes</option>
-      <option value="Bebidas">Bebidas</option>
-      <option value="Limpieza">Limpieza</option>
-      <option value="Enlatados">Enlatados</option>
-      <option value="Higiene Personal">Higiene Personal</option>
-      <option value="Papelería">Papelería</option>
-      <option value="Ferretería">Ferretería</option>
-      <option value="Congelados">Congelados</option>
-      <option value="Snacks">Snacks</option>
-      <option value="Productos Frescos">Productos Frescos</option>
-    </select>
-    <form action="/productos/crear-producto" method="GET">
-      <button type="submit">Crear Producto</button>
-    </form>
+    <div class="container">
+      <header class="top-bar">
+        <a href="/" class="back-btn">Atrás</a>
+      </header>
 
-    <h1>Lista de Productos</h1>
-    <table>
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Stock</th>
-          <th>Precio Unitario</th>
-          <th>Categoría</th>
-          <th>Unidad de Medida</th>
-          <th>Detalle</th>
-        </tr>
-      </thead>
-      <tbody id="productTableBody">
-        <% productos.forEach((producto) => { %>
-        <tr>
-          <td><%= producto.nombre %></td>
-          <td><%= producto.stock %></td>
-          <td>S/. <%= producto.precio_unitario %></td>
-          <td><%= producto.categoria %></td>
-          <td><%= producto.unidad_medida %></td>
-          <td>
-            <a class="view-btn" href="/productos/detalle/<%= producto.id %>"
-              >Ver Detalle</a
-            >
-          </td>
-        </tr>
-        <% }) %>
-      </tbody>
-    </table>
+      <section class="filtering">
+        <div class="search">
+          <input
+            type="text"
+            id="searchBar"
+            class="search-input"
+            placeholder="Buscar producto..."
+          />
+        </div>
+        <div class="filter">
+          <select id="categoryFilter" class="category-select">
+            <option value="all">Todas las categorías</option>
+            <option value="Abarrotes">Abarrotes</option>
+            <option value="Bebidas">Bebidas</option>
+            <option value="Limpieza">Limpieza</option>
+            <option value="Enlatados">Enlatados</option>
+            <option value="Higiene Personal">Higiene Personal</option>
+            <option value="Papelería">Papelería</option>
+            <option value="Ferretería">Ferretería</option>
+            <option value="Congelados">Congelados</option>
+            <option value="Snacks">Snacks</option>
+            <option value="Productos Frescos">Productos Frescos</option>
+          </select>
+          <form
+            action="/productos/crear-producto"
+            method="GET"
+            class="add-form"
+          >
+            <button type="submit" class="add-btn">+</button>
+          </form>
+        </div>
+      </section>
+
+      <div class="table-container">
+        <table class="product-table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Stock</th>
+              <th>Precio Unitario</th>
+              <th>Categoría</th>
+              <th>Unidad de Medida</th>
+              <th>Detalle</th>
+            </tr>
+          </thead>
+          <tbody id="productTableBody">
+            <% productos.forEach((producto) => { %>
+            <tr>
+              <td><%= producto.nombre %></td>
+              <td><%= producto.stock %></td>
+              <td>S/. <%= producto.precio_unitario %></td>
+              <td><%= producto.categoria %></td>
+              <td><%= producto.unidad_medida %></td>
+              <td>
+                <a
+                  class="view-btn"
+                  href="/productos/detalle/<%= producto.id %>"
+                >
+                  Ver Detalle
+                </a>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script id="productos-data" type="application/json">
+      <%- JSON.stringify(productos) %>
+    </script>
+
+    <!-- Aquí va tu JS sin tocar -->
+    <script>
+      const searchBar = document.getElementById("searchBar")
+      const categoryFilter = document.getElementById("categoryFilter")
+      const productTableBody = document.getElementById("productTableBody")
+      const productos = JSON.parse(
+        document.getElementById("productos-data").textContent
+      )
+
+      function renderTable(filteredProductos) {
+        productTableBody.innerHTML = ""
+        filteredProductos.forEach((producto) => {
+          const row = document.createElement("tr")
+          row.innerHTML = `
+            <td>${producto.nombre}</td>
+            <td>${producto.stock}</td>
+            <td>S/. ${producto.precio_unitario}</td>
+            <td>${producto.categoria}</td>
+            <td>${producto.unidad_medida}</td>
+            <td><a class="view-btn" href="/productos/detalle/${producto.id}">Ver Detalle</a></td>
+          `
+          productTableBody.appendChild(row)
+        })
+      }
+
+      function filterProducts() {
+        const searchText = searchBar.value.toLowerCase().trim()
+        const selectedCategory = categoryFilter.value
+
+        const filteredProductos = productos.filter((producto) => {
+          const matchesSearch = producto.nombre
+            .toLowerCase()
+            .includes(searchText)
+          const matchesCategory =
+            selectedCategory === "all" ||
+            producto.categoria === selectedCategory
+          return matchesSearch && matchesCategory
+        })
+
+        renderTable(filteredProductos)
+      }
+
+      searchBar.addEventListener("input", filterProducts)
+      categoryFilter.addEventListener("change", filterProducts)
+      renderTable(productos)
+    </script>
   </body>
-  <script id="productos-data" type="application/json">
-    <%- JSON.stringify(productos) %>
-  </script>
-
-  <script>
-    // Get DOM elements
-    const searchBar = document.getElementById("searchBar")
-    const categoryFilter = document.getElementById("categoryFilter")
-    const productTableBody = document.getElementById("productTableBody")
-    const productos = JSON.parse(
-      document.getElementById("productos-data").textContent
-    )
-
-    // Function to render table rows
-    function renderTable(filteredProductos) {
-      productTableBody.innerHTML = ""
-      filteredProductos.forEach((producto) => {
-        const row = document.createElement("tr")
-        row.innerHTML = `
-          <td>${producto.nombre}</td>
-          <td>${producto.stock}</td>
-          <td>S/. ${producto.precio_unitario}</td>
-          <td>${producto.categoria}</td>
-          <td>${producto.unidad_medida}</td>
-          <td><a class="view-btn" href="/productos/detalle/${producto.id}">Ver Detalle</a></td>
-        `
-        productTableBody.appendChild(row)
-      })
-    }
-
-    // Function to filter products
-    function filterProducts() {
-      const searchText = searchBar.value.toLowerCase().trim()
-      const selectedCategory = categoryFilter.value
-
-      const filteredProductos = productos.filter((producto) => {
-        // Search filter
-        const matchesSearch = producto.nombre.toLowerCase().includes(searchText)
-
-        // Category filter
-        const matchesCategory =
-          selectedCategory === "all" || producto.categoria === selectedCategory
-
-        return matchesSearch && matchesCategory
-      })
-
-      renderTable(filteredProductos)
-    }
-
-    // Event listeners
-    searchBar.addEventListener("input", filterProducts)
-    categoryFilter.addEventListener("change", filterProducts)
-
-    // Initial render
-    renderTable(productos)
-  </script>
 </html>
