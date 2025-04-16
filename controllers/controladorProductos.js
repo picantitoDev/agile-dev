@@ -3,10 +3,10 @@ const db = require("../model/queriesProductos")
 async function obtenerProductos(req, res) {
   try {
     const productos = await db.obtenerProductos()
-    const nombreDeProductos = productos.map((producto) => producto.nombre)
+    console.log("Productos que se pasan a la vista:", productos)
 
     res.render("productos", {
-      productos: nombreDeProductos,
+      productos: productos,
     })
   } catch (error) {
     console.error("Error al obtener productos:", error)
@@ -20,8 +20,15 @@ async function crearProductoGet(req, res) {
 }
 
 async function crearProductoPost(req, res) {
-  const { nombre } = req.body
-  await db.crearProducto(nombre)
+  const { nombre, stock, precio_unitario, categoria, unidad_medida } = req.body
+  console.log(req.body)
+  await db.crearProducto(
+    nombre,
+    stock,
+    precio_unitario,
+    categoria,
+    unidad_medida
+  )
   res.redirect("/productos")
 }
 

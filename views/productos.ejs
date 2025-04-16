@@ -13,14 +13,31 @@
       <option value="value3">Value 3</option>
     </select>
     <form action="/productos/crear-producto" method="GET">
-      <button>Crear Producto</button>
+      <button type="submit">Crear Producto</button>
     </form>
 
     <h1>Lista de Productos</h1>
-    <ul>
-      <% productos.forEach(function(producto) { %>
-      <li><%= producto %></li>
-      <% }) %>
-    </ul>
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Stock</th>
+          <th>Precio Unitario</th>
+          <th>Categoría</th>
+          <th>Unidad de Medida</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% productos.forEach((producto) => { %>
+        <tr>
+          <td><%= producto.nombre %></td>
+          <td><%= producto.stock %></td>
+          <td>S/. <%= producto.precio_unitario %></td>
+          <td><%= producto.categoria %></td>
+          <td><%= producto.unidad_medida %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
   </body>
 </html>
