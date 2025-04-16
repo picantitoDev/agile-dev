@@ -6,7 +6,16 @@
   </head>
   <body>
     <a href="/">Atrás</a>
-    <button>Crear Producto</button>
+    <input type="text" />
+    <select name="Categoria">
+      <option value="value1">Value 1</option>
+      <option value="value2" selected>Value 2</option>
+      <option value="value3">Value 3</option>
+    </select>
+    <form action="/productos/crear-producto" method="GET">
+      <button>Crear Producto</button>
+    </form>
+
     <h1>Lista de Productos</h1>
     <ul>
       <% productos.forEach(function(producto) { %>
