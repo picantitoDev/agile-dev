@@ -5,6 +5,13 @@ async function obtenerProductos() {
   return rows
 }
 
+async function obtenerProductoPorId(id) {
+  const { rows } = await pool.query("SELECT * FROM producto WHERE id = $1", [
+    id,
+  ])
+  return rows[0]
+}
+
 async function crearProducto(
   nombre,
   stock,
@@ -23,4 +30,5 @@ async function crearProducto(
 module.exports = {
   obtenerProductos,
   crearProducto,
+  obtenerProductoPorId,
 }

@@ -14,6 +14,24 @@ async function obtenerProductos(req, res) {
   }
 }
 
+async function obtenerProductoPorId(req, res) {
+  try {
+    const id = parseInt(req.params.id)
+    const producto = await db.obtenerProductoPorId(id)
+
+    if (!producto) {
+      return res.status(404).send("Producto no encontrado")
+    }
+
+    res.render("detalleProducto", {
+      producto: producto,
+    })
+  } catch (error) {
+    console.error("Error al obtener producto por ID:", error)
+    res.status(500).send("Error al obtener el producto")
+  }
+}
+
 async function crearProductoGet(req, res) {
   // render the form
   res.render("nuevoProducto", { title: "New User" })
@@ -36,4 +54,5 @@ module.exports = {
   obtenerProductos,
   crearProductoGet,
   crearProductoPost,
+  obtenerProductoPorId,
 }

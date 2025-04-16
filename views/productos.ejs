@@ -34,6 +34,7 @@
           <th>Precio Unitario</th>
           <th>Categoría</th>
           <th>Unidad de Medida</th>
+          <th>Detalle</th>
         </tr>
       </thead>
       <tbody id="productTableBody">
@@ -44,6 +45,11 @@
           <td>S/. <%= producto.precio_unitario %></td>
           <td><%= producto.categoria %></td>
           <td><%= producto.unidad_medida %></td>
+          <td>
+            <a class="view-btn" href="/productos/detalle/<%= producto.id %>"
+              >Ver Detalle</a
+            >
+          </td>
         </tr>
         <% }) %>
       </tbody>
@@ -73,6 +79,7 @@
           <td>S/. ${producto.precio_unitario}</td>
           <td>${producto.categoria}</td>
           <td>${producto.unidad_medida}</td>
+          <td><a class="view-btn" href="/productos/detalle/${producto.id}">Ver Detalle</a></td>
         `
         productTableBody.appendChild(row)
       })

@@ -7,6 +7,8 @@ router.get("/crear-producto", (req, res) => {
   res.render("nuevoProducto")
 })
 
+router.get("/detalle/:id", controladorProductos.obtenerProductoPorId)
+
 router.post("/crear-producto", controladorProductos.crearProductoPost)
 
 module.exports = router

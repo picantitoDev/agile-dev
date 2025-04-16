@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Detalle del Producto</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 2rem;
+      }
+      .producto-detalle {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 1.5rem;
+        max-width: 500px;
+        background-color: #f9f9f9;
+      }
+      h1 {
+        margin-bottom: 1rem;
+      }
+      .campo {
+        margin-bottom: 0.8rem;
+      }
+      .campo strong {
+        display: inline-block;
+        width: 150px;
+      }
+      a {
+        display: inline-block;
+        margin-top: 1rem;
+        text-decoration: none;
+        color: #007bff;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="/productos">← Volver a la lista</a>
+
+    <div class="producto-detalle">
+      <h1>Detalle del Producto</h1>
+
+      <div class="campo"><strong>Nombre:</strong> <%= producto.nombre %></div>
+      <div class="campo"><strong>Stock:</strong> <%= producto.stock %></div>
+      <div class="campo">
+        <strong>Precio Unitario:</strong> S/. <%= producto.precio_unitario %>
+      </div>
+      <div class="campo">
+        <strong>Categoría:</strong> <%= producto.categoria %>
+      </div>
+      <div class="campo">
+        <strong>Unidad de Medida:</strong> <%= producto.unidad_medida %>
+      </div>
+    </div>
+  </body>
+</html>
