@@ -3,14 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <title>Lista de Productos</title>
+    <link rel="stylesheet" href="/" />
   </head>
   <body>
     <a href="/">Atrás</a>
-    <input type="text" />
-    <select name="Categoria">
-      <option value="value1">Value 1</option>
-      <option value="value2" selected>Value 2</option>
-      <option value="value3">Value 3</option>
+    <input type="text" id="searchBar" placeholder="Buscar producto..." />
+    <select id="categoryFilter">
+      <option value="all">Todas las categorias</option>
+      <option value="Abarrotes">Abarrotes</option>
+      <option value="Bebidas">Bebidas</option>
+      <option value="Limpieza">Limpieza</option>
+      <option value="Enlatados">Enlatados</option>
+      <option value="Higiene Personal">Higiene Personal</option>
+      <option value="Papelería">Papelería</option>
+      <option value="Ferretería">Ferretería</option>
+      <option value="Congelados">Congelados</option>
+      <option value="Snacks">Snacks</option>
+      <option value="Productos Frescos">Productos Frescos</option>
     </select>
     <form action="/productos/crear-producto" method="GET">
       <button type="submit">Crear Producto</button>
@@ -27,7 +36,7 @@
           <th>Unidad de Medida</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="productTableBody">
         <% productos.forEach((producto) => { %>
         <tr>
           <td><%= producto.nombre %></td>
@@ -40,4 +49,59 @@
       </tbody>
     </table>
   </body>
+  <script id="productos-data" type="application/json">
+    <%- JSON.stringify(productos) %>
+  </script>
+
+  <script>
+    // Get DOM elements
+    const searchBar = document.getElementById("searchBar")
+    const categoryFilter = document.getElementById("categoryFilter")
+    const productTableBody = document.getElementById("productTableBody")
+    const productos = JSON.parse(
+      document.getElementById("productos-data").textContent
+    )
+
+    // Function to render table rows
+    function renderTable(filteredProductos) {
+      productTableBody.innerHTML = ""
+      filteredProductos.forEach((producto) => {
+        const row = document.createElement("tr")
+        row.innerHTML = `
+          <td>${producto.nombre}</td>
+          <td>${producto.stock}</td>
+          <td>S/. ${producto.precio_unitario}</td>
+          <td>${producto.categoria}</td>
+          <td>${producto.unidad_medida}</td>
+        `
+        productTableBody.appendChild(row)
+      })
+    }
+
+    // Function to filter products
+    function filterProducts() {
+      const searchText = searchBar.value.toLowerCase().trim()
+      const selectedCategory = categoryFilter.value
+
+      const filteredProductos = productos.filter((producto) => {
+        // Search filter
+        const matchesSearch = producto.nombre.toLowerCase().includes(searchText)
+
+        // Category filter
+        const matchesCategory =
+          selectedCategory === "all" || producto.categoria === selectedCategory
+
+        return matchesSearch && matchesCategory
+      })
+
+      renderTable(filteredProductos)
+    }
+
+    // Event listeners
+    searchBar.addEventListener("input", filterProducts)
+    categoryFilter.addEventListener("change", filterProducts)
+
+    // Initial render
+    renderTable(productos)
+  </script>
 </html>
