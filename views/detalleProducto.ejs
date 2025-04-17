@@ -2,54 +2,48 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <title>Detalle del Producto</title>
-    <style>
-      body {
-        font-family: sans-serif;
-        margin: 2rem;
-      }
-      .producto-detalle {
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        padding: 1.5rem;
-        max-width: 500px;
-        background-color: #f9f9f9;
-      }
-      h1 {
-        margin-bottom: 1rem;
-      }
-      .campo {
-        margin-bottom: 0.8rem;
-      }
-      .campo strong {
-        display: inline-block;
-        width: 150px;
-      }
-      a {
-        display: inline-block;
-        margin-top: 1rem;
-        text-decoration: none;
-        color: #007bff;
-      }
-    </style>
+    <title>Editar Producto</title>
   </head>
   <body>
     <a href="/productos">← Volver a la lista</a>
 
-    <div class="producto-detalle">
-      <h1>Detalle del Producto</h1>
+    <h1>Editar Producto</h1>
 
-      <div class="campo"><strong>Nombre:</strong> <%= producto.nombre %></div>
-      <div class="campo"><strong>Stock:</strong> <%= producto.stock %></div>
-      <div class="campo">
-        <strong>Precio Unitario:</strong> S/. <%= producto.precio_unitario %>
+    <form action="/productos/detalle/<%= producto.id %>?_method=PUT" method="POST">
+      <div>
+        <label>Nombre:</label>
+        <input type="text" name="nombre" value="<%= producto.nombre %>" required />
       </div>
-      <div class="campo">
-        <strong>Categoría:</strong> <%= producto.categoria %>
+
+      <div>
+        <label>Stock:</label>
+        <input type="number" name="stock" value="<%= producto.stock %>" required />
       </div>
-      <div class="campo">
-        <strong>Unidad de Medida:</strong> <%= producto.unidad_medida %>
+
+      <div>
+        <label>Precio Unitario (S/.):</label>
+        <input type="number" step="0.01" name="precio_unitario" value="<%= producto.precio_unitario %>" required />
       </div>
-    </div>
+
+      <div>
+        <label>Categoría:</label>
+        <input type="text" name="categoria" value="<%= producto.categoria %>" required />
+      </div>
+
+      <div>
+        <label>Unidad de Medida:</label>
+        <input type="text" name="unidad_medida" value="<%= producto.unidad_medida %>" required />
+      </div>
+
+      <div>
+        <label>Estado:</label>
+        <select name="estado">
+          <option value="Activado" <%= producto.estado === 'Activado' ? 'selected' : '' %>>Activado</option>
+          <option value="Desactivado" <%= producto.estado === 'Desactivado' ? 'selected' : '' %>>Desactivado</option>
+        </select>
+      </div>
+
+      <button type="submit">Guardar</button>
+    </form>
   </body>
 </html>

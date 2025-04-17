@@ -32,6 +32,31 @@ async function obtenerProductoPorId(req, res) {
   }
 }
 
+async function actualizarProducto(req, res) {
+  try {
+    const id = parseInt(req.params.id)
+
+    const { nombre, stock, precio_unitario, categoria, unidad_medida, estado } =
+      req.body
+
+    const datosActualizados = {
+      nombre,
+      stock: parseInt(stock),
+      precio_unitario: parseFloat(precio_unitario),
+      categoria,
+      unidad_medida,
+      estado,
+    }
+
+    await db.actualizarProducto(id, datosActualizados)
+
+    res.redirect("/productos")
+  } catch (error) {
+    console.error("Error al actualizar el producto:", error)
+    res.status(500).send("Error al actualizar el producto")
+  }
+}
+
 async function crearProductoGet(req, res) {
   // render the form
   res.render("nuevoProducto", { title: "New User" })
@@ -55,4 +80,5 @@ module.exports = {
   crearProductoGet,
   crearProductoPost,
   obtenerProductoPorId,
+  actualizarProducto,
 }

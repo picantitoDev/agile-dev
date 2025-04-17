@@ -4,6 +4,67 @@
     <meta charset="UTF-8" />
     <title>Lista de Productos</title>
     <link rel="stylesheet" href="/listarProductos.css" />
+    <style>
+      /* Estilos del toggle switch */
+      .status-toggle {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-left: 1rem;
+      }
+
+      #statusLabel {
+        display: inline-block;
+        width: 60px;
+        text-align: left;
+        margin-right: 0.5rem;
+      }
+
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 24px;
+      }
+
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: 0.4s;
+        border-radius: 24px;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+
+      .switch input:checked + .slider {
+        background-color: #4caf50;
+      }
+
+      .switch input:checked + .slider:before {
+        transform: translateX(26px);
+      }
+    </style>
   </head>
   <body>
     <div class="container">
@@ -21,6 +82,14 @@
           />
         </div>
         <div class="filter">
+          <div class="status-toggle">
+            <label class="switch">
+              <input type="checkbox" id="statusToggle" checked />
+              <span class="slider"></span>
+            </label>
+            <span id="statusLabel">Activos</span>
+          </div>
+
           <select id="categoryFilter" class="category-select">
             <option value="all">Todas las categorías</option>
             <option value="Abarrotes">Abarrotes</option>
@@ -34,6 +103,7 @@
             <option value="Snacks">Snacks</option>
             <option value="Productos Frescos">Productos Frescos</option>
           </select>
+
           <form
             action="/productos/crear-producto"
             method="GET"
@@ -83,11 +153,13 @@
       <%- JSON.stringify(productos) %>
     </script>
 
-    <!-- Aquí va tu JS sin tocar -->
     <script>
       const searchBar = document.getElementById("searchBar")
       const categoryFilter = document.getElementById("categoryFilter")
+      const statusToggle = document.getElementById("statusToggle")
+      const statusLabel = document.getElementById("statusLabel")
       const productTableBody = document.getElementById("productTableBody")
+
       const productos = JSON.parse(
         document.getElementById("productos-data").textContent
       )
@@ -111,6 +183,9 @@
       function filterProducts() {
         const searchText = searchBar.value.toLowerCase().trim()
         const selectedCategory = categoryFilter.value
+        const selectedStatus = statusToggle.checked ? "Activado" : "Desactivado"
+
+        statusLabel.textContent = statusToggle.checked ? "Activos" : "Inactivos"
 
         const filteredProductos = productos.filter((producto) => {
           const matchesSearch = producto.nombre
@@ -119,15 +194,20 @@
           const matchesCategory =
             selectedCategory === "all" ||
             producto.categoria === selectedCategory
-          return matchesSearch && matchesCategory
+          const matchesStatus = producto.estado === selectedStatus
+          return matchesSearch && matchesCategory && matchesStatus
         })
 
         renderTable(filteredProductos)
       }
 
+      // Event listeners
       searchBar.addEventListener("input", filterProducts)
       categoryFilter.addEventListener("change", filterProducts)
-      renderTable(productos)
+      statusToggle.addEventListener("change", filterProducts)
+
+      // Cargar solo los productos activos por defecto
+      renderTable(productos.filter((p) => p.estado === "Activado"))
     </script>
   </body>
 </html>

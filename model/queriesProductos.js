@@ -1,7 +1,9 @@
 const pool = require("./pool")
 
 async function obtenerProductos() {
-  const { rows } = await pool.query("SELECT * FROM producto")
+  const { rows } = await pool.query(
+    "SELECT * FROM producto ORDER BY nombre ASC"
+  )
   return rows
 }
 
@@ -27,8 +29,34 @@ async function crearProducto(
   )
 }
 
+async function actualizarProducto(id, producto) {
+  const query = `
+    UPDATE producto
+    SET nombre = $1,
+        stock = $2,
+        precio_unitario = $3,
+        categoria = $4,
+        unidad_medida = $5,
+        estado = $6
+    WHERE id = $7
+  `
+
+  const valores = [
+    producto.nombre,
+    producto.stock,
+    producto.precio_unitario,
+    producto.categoria,
+    producto.unidad_medida,
+    producto.estado,
+    id,
+  ]
+
+  await pool.query(query, valores)
+}
+
 module.exports = {
   obtenerProductos,
   crearProducto,
   obtenerProductoPorId,
+  actualizarProducto,
 }
