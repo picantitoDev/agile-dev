@@ -282,9 +282,13 @@ body {
 }
 
 .switch input:checked + .slider {
-  background-color: #4caf50;
+  background-color: #10b981;
 }
 
 .switch input:checked + .slider:before {
   transform: translateX(26px);
+}
+
+.back-arrow {
+  font-size: 1.2rem;
 }
