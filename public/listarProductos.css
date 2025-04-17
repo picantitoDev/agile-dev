@@ -72,6 +72,24 @@ body {
   justify-content: flex-end;
 }
 
+.search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  padding-left: 2rem; /* espacio para el ícono */
+  font-size: 1rem;
+}
+
+.search-icon {
+  position: absolute;
+  left: 95%;
+  color: #888;
+  pointer-events: none;
+}
+
 .search-input,
 .category-select {
   width: 100%;
@@ -87,6 +105,17 @@ body {
 .search-input:focus,
 .category-select:focus {
   border-color: #9ca3af;
+}
+
+.category-select {
+  appearance: none; /* Oculta la flecha por defecto del sistema */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: white;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23222222' stroke-width='2'%3E%3Cpath d='M3 6l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center; /* Ajusta aquí la posición de la flecha */
+  padding-right: 2.5rem;
 }
 
 /* Botón "+" verde claro */
@@ -198,4 +227,64 @@ body {
   .table-container {
     padding: 1rem;
   }
+}
+
+/* Estilos del toggle switch */
+.status-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 1rem;
+}
+
+#statusLabel {
+  display: inline-block;
+  width: 60px;
+  text-align: left;
+  margin-right: 0.5rem;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 24px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+.switch input:checked + .slider {
+  background-color: #4caf50;
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(26px);
 }
