@@ -1,0 +1,42 @@
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: sans-serif;
+}
+
+a {
+  display: inline-block;
+  margin-bottom: 20px;
+  text-decoration: none;
+  color: #333;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+.categoria-form {
+  margin-bottom: 30px;
+}
+
+.categoria-form input {
+  padding: 5px;
+  margin-right: 10px;
+}
+
+.categoria-form button {
+  padding: 6px 12px;
+}
+
+.categoria-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.categoria-table th,
+.categoria-table td {
+  padding: 8px;
+  border: 1px solid #ccc;
+  text-align: left;
+}

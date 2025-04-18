@@ -1,9 +1,10 @@
-const db = require("../model/queriesProductos")
+const dbProductos = require("../model/queriesProductos")
+const dbCategorias = require("../model/queriesCategorias")
 
 async function obtenerProductos(req, res) {
   try {
-    const productos = await db.obtenerProductos()
-    const categorias = await db.obtenerCategorias()
+    const productos = await dbProductos.obtenerProductos()
+    const categorias = await dbCategorias.obtenerCategorias()
     res.render("productos", { productos, categorias })
   } catch (error) {
     console.error("Error al obtener productos:", error)
@@ -14,8 +15,8 @@ async function obtenerProductos(req, res) {
 async function obtenerProductoPorId(req, res) {
   try {
     const id = parseInt(req.params.id)
-    const producto = await db.obtenerProductoPorId(id)
-    const categorias = await db.obtenerCategorias()
+    const producto = await dbProductos.obtenerProductoPorId(id)
+    const categorias = await dbCategorias.obtenerCategorias()
 
     if (!producto) {
       return res.status(404).send("Producto no encontrado")
@@ -51,7 +52,7 @@ async function actualizarProducto(req, res) {
       estado,
     }
 
-    await db.actualizarProducto(id, datosActualizados)
+    await dbProductos.actualizarProducto(id, datosActualizados)
     res.redirect("/productos")
   } catch (error) {
     console.error("Error al actualizar el producto:", error)
@@ -61,7 +62,7 @@ async function actualizarProducto(req, res) {
 
 async function crearProductoGet(req, res) {
   try {
-    const categorias = await db.obtenerCategorias() // Fetch categories from the database
+    const categorias = await dbCategorias.obtenerCategorias() // Fetch categories from the database
     res.render("nuevoProducto", { categorias })
   } catch (error) {
     console.error("Error al cargar formulario:", error)
@@ -74,7 +75,7 @@ async function crearProductoPost(req, res) {
     const { nombre, sku, stock, precio_unitario, categoria_id, unidad_medida } =
       req.body
 
-    await db.crearProducto(
+    await dbProductos.crearProducto(
       nombre,
       sku,
       parseInt(stock),

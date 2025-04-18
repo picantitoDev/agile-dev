@@ -76,18 +76,9 @@ async function actualizarProducto(id, producto) {
   await pool.query(query, valores)
 }
 
-async function obtenerCategorias() {
-  // Fetch all categories from the 'categoria' table
-  const { rows } = await pool.query(
-    `SELECT * FROM categoria ORDER BY nombre ASC`
-  )
-  return rows
-}
-
 module.exports = {
   obtenerProductos,
   crearProducto,
   obtenerProductoPorId,
   actualizarProducto,
-  obtenerCategorias,
 }

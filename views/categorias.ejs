@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Categorías</title>
+    <link rel="stylesheet" href="/listarCategorias.css" />
+  </head>
+  <body>
+    <div class="container">
+      <a href="/">← Atrás</a>
+
+      <h1>Listado de Categorías</h1>
+
+      <!-- Formulario para crear nueva categoría -->
+      <form action="/categorias" method="POST" class="categoria-form">
+        <label for="nombre">Nueva Categoría:</label>
+        <input type="text" id="nombre" name="nombre" required />
+        <button type="submit">Agregar</button>
+      </form>
+
+      <!-- Tabla de categorías existentes -->
+      <table class="categoria-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% categorias.forEach((cat) => { %>
+          <tr>
+            <td><%= cat.id %></td>
+            <td><%= cat.nombre %></td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
