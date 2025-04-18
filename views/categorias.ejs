@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <title>Categorías</title>
     <link rel="stylesheet" href="/listarCategorias.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
   </head>
   <body>
     <div class="container">
@@ -15,7 +19,7 @@
       <form action="/categorias" method="POST" class="categoria-form">
         <label for="nombre">Nueva Categoría:</label>
         <input type="text" id="nombre" name="nombre" required />
-        <button type="submit">Agregar</button>
+        <button type="submit" class="btn-agregar">Agregar</button>
       </form>
 
       <!-- Tabla de categorías existentes -->
@@ -24,6 +28,7 @@
           <tr>
             <th>ID</th>
             <th>Nombre</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -31,6 +36,14 @@
           <tr>
             <td><%= cat.id %></td>
             <td><%= cat.nombre %></td>
+            <td class="acciones">
+              <button class="btn-editar">
+                <i class="fas fa-pencil-alt"></i>
+              </button>
+              <button class="btn-eliminar">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </td>
           </tr>
           <% }) %>
         </tbody>
