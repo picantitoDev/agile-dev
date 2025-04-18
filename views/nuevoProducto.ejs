@@ -2,62 +2,44 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <title>Crear Nuevo Producto</title>
+    <title>Nuevo Producto</title>
     <link rel="stylesheet" href="/crearProducto.css" />
   </head>
   <body>
     <div class="form-container">
-      <a href="/productos">← Atrás</a>
+      <a href="/productos">← Volver a productos</a>
       <h1>Crear Nuevo Producto</h1>
-      <form
-        action="/productos/crear-producto"
-        method="POST"
-        id="formCrearProducto"
-      >
+      <form action="/productos/crear-producto" method="POST">
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required />
+        <input type="text" name="nombre" id="nombre" required />
+
+        <label for="sku">SKU:</label>
+        <input type="text" name="sku" id="sku" required />
 
         <label for="stock">Stock:</label>
-        <input type="number" id="stock" name="stock" required />
+        <input type="number" name="stock" id="stock" required />
 
         <label for="precio_unitario">Precio Unitario:</label>
         <input
           type="number"
-          id="precio_unitario"
           name="precio_unitario"
+          id="precio_unitario"
           step="0.01"
           required
         />
 
-        <label for="categoria">Categoría:</label>
-        <select id="categoria" name="categoria" required>
-          <option value="">Seleccione una categoría</option>
-          <option value="Abarrotes">Abarrotes</option>
-          <option value="Bebidas">Bebidas</option>
-          <option value="Limpieza">Limpieza</option>
-          <option value="Enlatados">Enlatados</option>
-          <option value="Higiene Personal">Higiene Personal</option>
-          <option value="Papelería">Papelería</option>
-          <option value="Ferretería">Ferretería</option>
-          <option value="Congelados">Congelados</option>
-          <option value="Snacks">Snacks</option>
-          <option value="Productos Frescos">Productos Frescos</option>
+        <label for="unidad_medida">Unidad de Medida:</label>
+        <input type="text" name="unidad_medida" id="unidad_medida" required />
+
+        <label for="categoria_id">Categoría:</label>
+        <select name="categoria_id" id="categoria_id" required>
+          <% categorias.forEach((cat) => { %>
+          <option value="<%= cat.id %>"><%= cat.nombre %></option>
+          <% }) %>
         </select>
 
-        <label for="unidad_medida">Unidad de Medida:</label>
-        <input type="text" id="unidad_medida" name="unidad_medida" required />
-
-        <button type="submit" id="submitBtn">Crear Producto</button>
+        <button type="submit">Crear Producto</button>
       </form>
     </div>
   </body>
-
-  <script>
-    document
-      .getElementById("formCrearProducto")
-      .addEventListener("submit", function () {
-        document.getElementById("submitBtn").disabled = true
-        document.getElementById("submitBtn").innerText = "Enviando..."
-      })
-  </script>
 </html>

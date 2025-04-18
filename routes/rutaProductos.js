@@ -2,12 +2,19 @@ const express = require("express")
 const router = express.Router()
 const controladorProductos = require("../controllers/controladorProductos")
 
+// Obtener lista de productos
 router.get("/", controladorProductos.obtenerProductos)
-router.get("/crear-producto", (req, res) => {
-  res.render("nuevoProducto")
-})
-router.get("/detalle/:id", controladorProductos.obtenerProductoPorId)
-router.put("/detalle/:id", controladorProductos.actualizarProducto)
+
+// Formulario para crear un producto
+router.get("/crear-producto", controladorProductos.crearProductoGet) // Now it calls the method to get categories
+
+// Crear producto (POST)
 router.post("/crear-producto", controladorProductos.crearProductoPost)
+
+// Ver detalle de producto
+router.get("/detalle/:id", controladorProductos.obtenerProductoPorId)
+
+// Actualizar producto
+router.put("/detalle/:id", controladorProductos.actualizarProducto)
 
 module.exports = router

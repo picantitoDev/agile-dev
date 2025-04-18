@@ -36,18 +36,12 @@
             <span id="statusLabel">Activos</span>
           </div>
 
+          <!-- Dynamic Category Filter -->
           <select id="categoryFilter" class="category-select">
-            <option value="all">Todas las categorías</option>
-            <option value="Abarrotes">Abarrotes</option>
-            <option value="Bebidas">Bebidas</option>
-            <option value="Limpieza">Limpieza</option>
-            <option value="Enlatados">Enlatados</option>
-            <option value="Higiene Personal">Higiene Personal</option>
-            <option value="Papelería">Papelería</option>
-            <option value="Ferretería">Ferretería</option>
-            <option value="Congelados">Congelados</option>
-            <option value="Snacks">Snacks</option>
-            <option value="Productos Frescos">Productos Frescos</option>
+            <option value="all">Todas</option>
+            <% categorias.forEach((cat) => { %>
+            <option value="<%= cat.nombre %>"><%= cat.nombre %></option>
+            <% }) %>
           </select>
 
           <form
@@ -65,6 +59,7 @@
           <thead>
             <tr>
               <th>Nombre</th>
+              <th>SKU</th>
               <th>Stock</th>
               <th>Precio Unitario</th>
               <th>Categoría</th>
@@ -76,6 +71,7 @@
             <% productos.forEach((producto) => { %>
             <tr>
               <td><%= producto.nombre %></td>
+              <td><%= producto.sku %></td>
               <td><%= producto.stock %></td>
               <td>S/. <%= producto.precio_unitario %></td>
               <td><%= producto.categoria %></td>
@@ -110,12 +106,22 @@
         document.getElementById("productos-data").textContent
       )
 
+      // Renderiza los productos en la tabla
       function renderTable(filteredProductos) {
         productTableBody.innerHTML = ""
+
+        if (filteredProductos.length === 0) {
+          const row = document.createElement("tr")
+          row.innerHTML = `<td colspan="7" style="text-align: center;">No se encontraron productos</td>`
+          productTableBody.appendChild(row)
+          return
+        }
+
         filteredProductos.forEach((producto) => {
           const row = document.createElement("tr")
           row.innerHTML = `
             <td>${producto.nombre}</td>
+            <td>${producto.sku}</td>
             <td>${producto.stock}</td>
             <td>S/. ${producto.precio_unitario}</td>
             <td>${producto.categoria}</td>
@@ -126,6 +132,7 @@
         })
       }
 
+      // Aplica los filtros de búsqueda, categoría y estado
       function filterProducts() {
         const searchText = searchBar.value.toLowerCase().trim()
         const selectedCategory = categoryFilter.value
@@ -134,25 +141,27 @@
         statusLabel.textContent = statusToggle.checked ? "Activos" : "Inactivos"
 
         const filteredProductos = productos.filter((producto) => {
-          const matchesSearch = producto.nombre
-            .toLowerCase()
-            .includes(searchText)
+          const matchesSearch =
+            producto.nombre.toLowerCase().includes(searchText) ||
+            producto.sku.toLowerCase().includes(searchText)
+
           const matchesCategory =
             selectedCategory === "all" ||
             producto.categoria === selectedCategory
           const matchesStatus = producto.estado === selectedStatus
+
           return matchesSearch && matchesCategory && matchesStatus
         })
 
         renderTable(filteredProductos)
       }
 
-      // Event listeners
+      // Eventos
       searchBar.addEventListener("input", filterProducts)
       categoryFilter.addEventListener("change", filterProducts)
       statusToggle.addEventListener("change", filterProducts)
 
-      // Cargar solo los productos activos por defecto
+      // Render inicial: solo productos activos
       renderTable(productos.filter((p) => p.estado === "Activado"))
     </script>
   </body>
