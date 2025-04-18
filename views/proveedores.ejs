@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lista de Proveedores</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 80%;
+        margin: 20px auto;
+      }
+      th,
+      td {
+        border: 1px solid #999;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #eee;
+      }
+    </style>
+  </head>
+  <body>
+    <h2 style="text-align: center">Lista de Proveedores</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Razón Social</th>
+          <th>RUC</th>
+          <th>Número Teléfono</th>
+          <th>Correo</th>
+          <th>Dirección</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% proveedores.forEach(function(proveedor) { %>
+        <tr>
+          <td><%= proveedor.id %></td>
+          <td><%= proveedor.razon_social %></td>
+          <td><%= proveedor.ruc %></td>
+          <td><%= proveedor.numero_telefono %></td>
+          <td><%= proveedor.correo %></td>
+          <td><%= proveedor.direccion %></td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </body>
+</html>

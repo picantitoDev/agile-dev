@@ -3,6 +3,7 @@ const app = express()
 const path = require("path")
 const rutaProductos = require("./routes/rutaProductos")
 const rutaCategorias = require("./routes/rutaCategorias")
+const rutaProveedores = require("./routes/rutaProveedores")
 
 app.use(express.static(path.join(__dirname, "public")))
 app.set("view engine", "ejs")
@@ -15,8 +16,8 @@ app.get("/", (req, res) => {
 })
 
 app.use("/productos", rutaProductos)
-
 app.use("/categorias", rutaCategorias)
+app.use("/proveedores", rutaProveedores)
 
 app.listen(8080, () => {
   console.log("Running on localhost...")
