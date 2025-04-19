@@ -5,6 +5,7 @@ const rutaProductos = require("./routes/rutaProductos")
 const rutaCategorias = require("./routes/rutaCategorias")
 const rutaProveedores = require("./routes/rutaProveedores")
 
+app.use(express.json())
 app.use(express.static(path.join(__dirname, "public")))
 app.set("view engine", "ejs")
 app.use(express.urlencoded({ extended: true }))
@@ -19,6 +20,6 @@ app.use("/productos", rutaProductos)
 app.use("/categorias", rutaCategorias)
 app.use("/proveedores", rutaProveedores)
 
-app.listen(8080, () => {
+app.listen(8000, () => {
   console.log("Running on localhost...")
 })
